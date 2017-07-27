@@ -7,7 +7,7 @@ RSpec.describe User, type: :model do
     expect(user).to validate_presence_of(:email)  
   end
   it 'validate_uniqueness_of email' do
-    expect(user).to validate_uniqueness_of(:email).case_insensitive  
+    expect(user).to validate_uniqueness_of(:email).case_insensitive
   end
   it 'validate_confirmation_of password' do
     expect(user).to validate_confirmation_of(:password)  

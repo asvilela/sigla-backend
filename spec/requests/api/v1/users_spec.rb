@@ -5,6 +5,8 @@ RSpec.describe 'Users API', type: :request do
   ######################################################################################### 
   # TEST PARAMETERS
   #########################################################################################
+  before { host! "api.sigla.dev" }
+  
   let!(:user) { create(:user) }
   let(:user_id) { user.id }
   let(:headers) do
@@ -13,8 +15,6 @@ RSpec.describe 'Users API', type: :request do
       'Content-Type' => Mime[:json].to_s
     }
   end
-  
-  before { host! "api.sigla.dev" }
 
   ######################################################################################### 
   # SHOW USER
