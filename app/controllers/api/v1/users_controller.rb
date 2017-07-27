@@ -1,14 +1,13 @@
 class Api::V1::UsersController < ApplicationController
 
+  before_action :set_user, only: [:show, :update, :destroy]
+
+  # GET /users/1
   def show
-    begin
-      user = User.find(params[:id])
-      render json: user, status: :ok
-    rescue
-      head :not_found
-    end
+    render json: @user, status: :ok
   end
 
+  # POST /users
   def create
     user = User.new(user_params)
 
@@ -19,24 +18,28 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  # PATCH/PUT /users/1
   def update
-    user = User.find(params[:id])
-
-    if user.update(user_params)
-      render json: user, status: :ok
+    if @user.update(user_params)
+      render json: @user, status: :ok
     else
-      render json: { errors: user.errors }, status: :unprocessable_entity
+      render json: { errors: @user.errors }, status: :unprocessable_entity
     end
   end
 
+  # DELETE /users/1
   def destroy
-    user = User.find(params[:id])
-    user.destroy
-    head :no_content
+    @user.destroy
   end
 
   private
 
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation)
   end

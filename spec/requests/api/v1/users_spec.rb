@@ -37,7 +37,9 @@ RSpec.describe 'Users API', type: :request do
       let(:user_id) { 10000 }
       
       it 'Return status code Not Found' do
-        expect(response).to have_http_status(404)
+        # expect(response).to have_http_status(404)
+
+        expect(response).to raise_error ActiveRecord::RecordNotFound
       end
     end
   end
