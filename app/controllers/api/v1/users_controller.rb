@@ -4,7 +4,7 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render json: @user, status: :ok
+    render json: @user, only: [:id, :email], status: :ok
   end
 
   # POST /users
