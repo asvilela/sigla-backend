@@ -1,8 +1,8 @@
 FactoryGirl.define do
 
-  factory :enterprise_type do
+  factory :feature do
 
-    title "Enterprise Type 1"
+    title "Feature 1"
     description { Faker::Lorem.sentence }
     active { Faker::Boolean.boolean }
 

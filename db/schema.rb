@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170820024943) do
+ActiveRecord::Schema.define(version: 20170820164502) do
 
   create_table "addresses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "zipCode"
@@ -69,6 +69,37 @@ ActiveRecord::Schema.define(version: 20170820024943) do
     t.index ["enterprise_type_id"], name: "index_enterprises_on_enterprise_type_id", using: :btree
   end
 
+  create_table "features", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.boolean  "active"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "folders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "number"
+    t.boolean  "active"
+    t.integer  "enterprise_id"
+    t.integer  "feature_id"
+    t.integer  "phase_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["enterprise_id"], name: "index_folders_on_enterprise_id", using: :btree
+    t.index ["feature_id"], name: "index_folders_on_feature_id", using: :btree
+    t.index ["phase_id"], name: "index_folders_on_phase_id", using: :btree
+  end
+
+  create_table "phases", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.boolean  "active"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                             default: "", null: false
     t.string   "encrypted_password",                default: "", null: false
@@ -92,4 +123,7 @@ ActiveRecord::Schema.define(version: 20170820024943) do
   add_foreign_key "companies", "company_types"
   add_foreign_key "enterprises", "addresses"
   add_foreign_key "enterprises", "enterprise_types"
+  add_foreign_key "folders", "enterprises"
+  add_foreign_key "folders", "features"
+  add_foreign_key "folders", "phases"
 end
