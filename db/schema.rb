@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170820164502) do
+ActiveRecord::Schema.define(version: 20170820190727) do
 
   create_table "addresses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "zipCode"
@@ -47,6 +47,28 @@ ActiveRecord::Schema.define(version: 20170820164502) do
     t.boolean  "licensor"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "content_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.boolean  "active"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "file_path"
+    t.date     "issue_date"
+    t.date     "due_date"
+    t.integer  "folder_id"
+    t.integer  "content_type_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["content_type_id"], name: "index_documents_on_content_type_id", using: :btree
+    t.index ["folder_id"], name: "index_documents_on_folder_id", using: :btree
   end
 
   create_table "enterprise_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -121,6 +143,8 @@ ActiveRecord::Schema.define(version: 20170820164502) do
 
   add_foreign_key "companies", "addresses"
   add_foreign_key "companies", "company_types"
+  add_foreign_key "documents", "content_types"
+  add_foreign_key "documents", "folders"
   add_foreign_key "enterprises", "addresses"
   add_foreign_key "enterprises", "enterprise_types"
   add_foreign_key "folders", "enterprises"

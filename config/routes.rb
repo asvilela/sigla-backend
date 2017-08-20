@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       resources :companies, only: [:show, :create, :update, :destroy]
       resources :enterprises, only: [:show, :create, :update, :destroy]
       resources :folders, only: [:show, :create, :update, :destroy]
+      resources :documents, only: [:show, :create, :update, :destroy]
     end
 
   end
