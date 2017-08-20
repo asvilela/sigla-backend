@@ -23,7 +23,7 @@ Rails.application.routes.draw do
       resources :users, only: [:show, :create, :update, :destroy]
       resources :sessions, only: [:create, :destroy]
       resources :companies, only: [:show, :create, :update, :destroy]
-      
+      resources :enterprises, only: [:show, :create, :update, :destroy]
     end
 
   end

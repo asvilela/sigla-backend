@@ -4,7 +4,6 @@ class Api::V1::CompaniesController < ApplicationController
 
   # GET /companies/1
   def show
-    @company = Company.find(params[:id])
     render json: @company, status: :ok
   end
 
@@ -32,7 +31,6 @@ class Api::V1::CompaniesController < ApplicationController
   def destroy
     @company.destroy
   end
-
 
   private 
 
