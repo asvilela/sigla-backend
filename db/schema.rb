@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170820190727) do
+ActiveRecord::Schema.define(version: 20170820201228) do
 
   create_table "addresses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "zipCode"
@@ -47,6 +47,38 @@ ActiveRecord::Schema.define(version: 20170820190727) do
     t.boolean  "licensor"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "conditional_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.boolean  "active"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "conditional_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.boolean  "active"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "conditionals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "due_date"
+    t.integer  "document_id"
+    t.integer  "conditional_status_id"
+    t.integer  "conditional_type_id"
+    t.integer  "recurrence_type_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["conditional_status_id"], name: "index_conditionals_on_conditional_status_id", using: :btree
+    t.index ["conditional_type_id"], name: "index_conditionals_on_conditional_type_id", using: :btree
+    t.index ["document_id"], name: "index_conditionals_on_document_id", using: :btree
+    t.index ["recurrence_type_id"], name: "index_conditionals_on_recurrence_type_id", using: :btree
   end
 
   create_table "content_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -122,6 +154,14 @@ ActiveRecord::Schema.define(version: 20170820190727) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "recurrence_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.boolean  "active"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                             default: "", null: false
     t.string   "encrypted_password",                default: "", null: false
@@ -143,6 +183,10 @@ ActiveRecord::Schema.define(version: 20170820190727) do
 
   add_foreign_key "companies", "addresses"
   add_foreign_key "companies", "company_types"
+  add_foreign_key "conditionals", "conditional_statuses"
+  add_foreign_key "conditionals", "conditional_types"
+  add_foreign_key "conditionals", "documents"
+  add_foreign_key "conditionals", "recurrence_types"
   add_foreign_key "documents", "content_types"
   add_foreign_key "documents", "folders"
   add_foreign_key "enterprises", "addresses"
