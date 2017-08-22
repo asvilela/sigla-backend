@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170822025839) do
+ActiveRecord::Schema.define(version: 20170822040036) do
 
   create_table "addresses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "zipCode"
@@ -47,6 +47,17 @@ ActiveRecord::Schema.define(version: 20170822025839) do
     t.boolean  "licensor"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "conditional_histories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "conditional_id"
+    t.integer  "conditional_status_id"
+    t.integer  "user_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["conditional_id"], name: "index_conditional_histories_on_conditional_id", using: :btree
+    t.index ["conditional_status_id"], name: "index_conditional_histories_on_conditional_status_id", using: :btree
+    t.index ["user_id"], name: "index_conditional_histories_on_user_id", using: :btree
   end
 
   create_table "conditional_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -123,6 +134,28 @@ ActiveRecord::Schema.define(version: 20170822025839) do
     t.index ["enterprise_type_id"], name: "index_enterprises_on_enterprise_type_id", using: :btree
   end
 
+  create_table "evidence_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.boolean  "active"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "evidences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.date     "file_date"
+    t.string   "file_path"
+    t.string   "number"
+    t.integer  "task_id"
+    t.integer  "evidence_type_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["evidence_type_id"], name: "index_evidences_on_evidence_type_id", using: :btree
+    t.index ["task_id"], name: "index_evidences_on_task_id", using: :btree
+  end
+
   create_table "features", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
     t.string   "description"
@@ -170,6 +203,17 @@ ActiveRecord::Schema.define(version: 20170822025839) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "task_histories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "task_id"
+    t.integer  "task_status_id"
+    t.integer  "user_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["task_id"], name: "index_task_histories_on_task_id", using: :btree
+    t.index ["task_status_id"], name: "index_task_histories_on_task_status_id", using: :btree
+    t.index ["user_id"], name: "index_task_histories_on_user_id", using: :btree
+  end
+
   create_table "task_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
     t.string   "description"
@@ -214,6 +258,9 @@ ActiveRecord::Schema.define(version: 20170822025839) do
 
   add_foreign_key "companies", "addresses"
   add_foreign_key "companies", "company_types"
+  add_foreign_key "conditional_histories", "conditional_statuses"
+  add_foreign_key "conditional_histories", "conditionals"
+  add_foreign_key "conditional_histories", "users"
   add_foreign_key "conditionals", "conditional_statuses"
   add_foreign_key "conditionals", "conditional_types"
   add_foreign_key "conditionals", "documents"
@@ -222,9 +269,14 @@ ActiveRecord::Schema.define(version: 20170822025839) do
   add_foreign_key "documents", "folders"
   add_foreign_key "enterprises", "addresses"
   add_foreign_key "enterprises", "enterprise_types"
+  add_foreign_key "evidences", "evidence_types"
+  add_foreign_key "evidences", "tasks"
   add_foreign_key "folders", "enterprises"
   add_foreign_key "folders", "features"
   add_foreign_key "folders", "phases"
+  add_foreign_key "task_histories", "task_statuses"
+  add_foreign_key "task_histories", "tasks"
+  add_foreign_key "task_histories", "users"
   add_foreign_key "tasks", "conditionals"
   add_foreign_key "tasks", "priorities"
   add_foreign_key "tasks", "task_statuses"
