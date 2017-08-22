@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       resources :folders, only: [:show, :create, :update, :destroy]
       resources :documents, only: [:show, :create, :update, :destroy]
       resources :conditionals, only: [:show, :create, :update, :destroy]
+      resources :tasks, only: [:show, :create, :update, :destroy]
     end
 
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170820201228) do
+ActiveRecord::Schema.define(version: 20170822025839) do
 
   create_table "addresses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "zipCode"
@@ -154,12 +154,43 @@ ActiveRecord::Schema.define(version: 20170820201228) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "priorities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.boolean  "active"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "recurrence_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
     t.string   "description"
     t.boolean  "active"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "task_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.boolean  "active"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "tasks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "description"
+    t.date     "start_date"
+    t.date     "due_date"
+    t.integer  "conditional_id"
+    t.integer  "priority_id"
+    t.integer  "task_status_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["conditional_id"], name: "index_tasks_on_conditional_id", using: :btree
+    t.index ["priority_id"], name: "index_tasks_on_priority_id", using: :btree
+    t.index ["task_status_id"], name: "index_tasks_on_task_status_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -194,4 +225,7 @@ ActiveRecord::Schema.define(version: 20170820201228) do
   add_foreign_key "folders", "enterprises"
   add_foreign_key "folders", "features"
   add_foreign_key "folders", "phases"
+  add_foreign_key "tasks", "conditionals"
+  add_foreign_key "tasks", "priorities"
+  add_foreign_key "tasks", "task_statuses"
 end
