@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       resources :documents, only: [:show, :create, :update, :destroy]
       resources :conditionals, only: [:show, :create, :update, :destroy]
       resources :tasks, only: [:show, :create, :update, :destroy]
+      resources :evidences, only: [:show, :create, :update, :destroy]
     end
 
   end
