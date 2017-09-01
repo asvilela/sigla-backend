@@ -1,6 +1,7 @@
 require 'api_version_constraint'
 
 Rails.application.routes.draw do
+  
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   # devise_for :users, only: [:sessions], controllers: { sessions: 'api/v1/sessions' }
@@ -14,11 +15,13 @@ Rails.application.routes.draw do
 
   # end
 
-  devise_for :users, only: [:sessions], controllers: { sessions: 'api/v1/sessions' }
+  # devise_for :users, only: [:sessions], controllers: { sessions: 'api/v1/sessions' }
 
   namespace :api, defaults: { format: :json }, path: '/' do
 
     namespace :v1, path: '/' do
+
+      mount_devise_token_auth_for 'User', at: 'auth'
 
       resources :users, only: [:show, :create, :update, :destroy]
       resources :sessions, only: [:create, :destroy]
