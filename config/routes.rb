@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
       resources :users, only: [:show, :create, :update, :destroy]
       resources :sessions, only: [:create, :destroy]
-      resources :companies, only: [:show, :create, :update, :destroy]
+      resources :companies, only: [:index, :show, :create, :update, :destroy]
       resources :enterprises, only: [:show, :create, :update, :destroy]
       resources :folders, only: [:show, :create, :update, :destroy]
       resources :documents, only: [:show, :create, :update, :destroy]
@@ -34,7 +34,6 @@ Rails.application.routes.draw do
       resources :evidences, only: [:show, :create, :update, :destroy]
 
       namespace :domains do
-        resources :company_types, only: [:index]
         resources :enterprise_types, only: [:index]
         resources :features, only: [:index]
         resources :phases, only: [:index]

@@ -7,12 +7,29 @@ RSpec.describe 'Companies API', type: :request do
   #########################################################################################
   before { host! "localhost" }
   
-  let!(:company) { create(:company) }
+  let!(:company) { create(:company, address: create(:address)) }
   let(:company_id) { company.id }
+  let(:address_id) { company.address.id }
   let(:headers) do 
     {
       'Content-Type' => Mime[:json].to_s
     }
+  end
+
+  ######################################################################################### 
+  # SHOW COMPANY
+  #########################################################################################
+
+  describe 'GET /companies' do
+    before do
+      get "/companies?page=1&size=10"
+    end
+
+    context 'teste' do
+      it 'does something' do
+        expect(json_body.length).to be >= 1
+      end
+    end
   end
 
   ######################################################################################### 
@@ -43,16 +60,16 @@ RSpec.describe 'Companies API', type: :request do
     end
 
     context 'Request is valid' do
-      let(:company_params) { attributes_for(:company) }
+      let(:company_params) { attributes_for(:company, address: build(:address)) }
       
       it 'Returns status code Created' do
         expect(response).to have_http_status(201)
-        expect(json_body[:title]).to eq(company_params[:title])
+        expect(json_body[:cnpj]).to eq(company_params[:cnpj])
       end
     end
 
     context 'Request is invalid' do
-      let(:company_params) { attributes_for(:company, cnpj: nil) }
+      let(:company_params) { attributes_for(:company, cnpj: nil, address: build(:address)) }
 
       it 'Returns status code Unprocessable Entity' do
         expect(response).to have_http_status(422)
@@ -73,7 +90,7 @@ RSpec.describe 'Companies API', type: :request do
     end
 
     context 'Request is valid' do
-      let(:company_params) { { company_name: 'alter company' } }
+      let(:company_params) { { company_name: 'alter company', address: { id: address_id, street: 'alter street' } } }
 
       it 'Retuns status code OK' do
         expect(response).to have_http_status(200)

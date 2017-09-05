@@ -1,6 +1,7 @@
 class Enterprise < ApplicationRecord
   belongs_to :enterprise_type
-  has_one :address
+  # belongs_to :address
+  belongs_to :company
 
-  validates_presence_of :title, :description, :enterprise_type
+  validates_presence_of :title, :description, :enterprise_type, :company
 end

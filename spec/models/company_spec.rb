@@ -14,9 +14,6 @@ RSpec.describe Company, type: :model do
     it 'must has the trade_name property' do
       expect(company).to validate_presence_of(:trade_name)
     end
-
-    it 'must has the company_type property' do
-      expect(company).to validate_presence_of(:company_type)
-    end
+    
   end
 end

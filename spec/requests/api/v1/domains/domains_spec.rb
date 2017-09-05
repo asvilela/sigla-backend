@@ -14,23 +14,6 @@ RSpec.describe 'Domains API', type: :request do
   end
 
   ######################################################################################### 
-  # INDEX DOMAINS/COMPANY_TYPES
-  #########################################################################################
-
-  describe 'GET /domains/company_types' do
-    let!(:company_types) { create_list(:company_type, 5) }
-
-    before do
-      get "/domains/company_types", params: {}, headers: headers
-    end
-
-    it 'returns list of company type' do
-      expect(json_body.length).to eq(5)
-    end
-    
-  end
-
-  ######################################################################################### 
   # INDEX DOMAINS/ENTERPRISE_TYPES
   #########################################################################################
 

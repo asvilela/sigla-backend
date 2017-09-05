@@ -5,3 +5,16 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+enterprise_type = [
+  { title: 'Biomassa', description: '', active: true },
+  { title: 'Eólica', description: '', active: true },
+  { title: 'PCH', description: '', active: true },
+  { title: 'Solar', description: '', active: true },
+  { title: 'Torre Anemométrica', description: '', active: true },
+  { title: 'UHE', description: '', active: true }
+]
+
+enterprise_type.each do |item|
+  EnterpriseType.find_or_create_by!(item)
+end
